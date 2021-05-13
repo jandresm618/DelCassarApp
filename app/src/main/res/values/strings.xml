@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">DelCassarApp</string>
+    <string name="email">Correo Electrònico</string>
+    <string name="password">Contraseña</string>
+    <string name="register">Registrarse</string>
+    <string name="forgotten">¿Olvido su contraseña?</string>
+    <string name="login">Iniciar Sesion</string>
+    <string name="logout_menu">Cerrar Sesion</string>
+
+    <string name="title">Formulario</string>
+    <string name="warning">Campo Requerido</string>
+    <string name="save">Guardar</string>
+    <string name="info">Nombre Usuario</string>
+    <string name="email_error">El usuario NO existe</string>
+    <string name="email_unaccepted">Correo no valido.</string>
+    <string name="email_blank">Digite un correo</string>
+    <string name="password_error">No coinciden</string>
+    <string name="wrong_password">Contraseña incorrecta.</string>
+    <string name="password_not_enough">Minimo 6 caracteres</string>
+    <string name="incomplete_error">Datos Incompletos</string>
+    <string name="required">Campo Requerido</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_profile">Perfil</string>
+    <string name="title_Chat">Chat</string>
+    <string name="title_shopping_cart">Carrito</string>
+    <string name="title_products">Productos</string>
+    <string name="type_some">Escriba aqui</string>
 </resources>
