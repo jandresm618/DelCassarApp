@@ -1,5 +1,6 @@
 package com.jandres.delcassarapp
 
+
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -9,6 +10,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.jandres.delcassarapp.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         email = data?.getString("email").toString()
         password = data?.getString("password").toString()
 
-        mainBinding.textView4.text = email
+        //mainBinding.textView4.text = email
         //mainBinding.textView3.text = data?.getString("password")
     }
 

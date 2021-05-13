@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import com.jandres.delcassarapp.databinding.ActivityLoginBinding
+import com.jandres.delcassarapp.utils.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -20,30 +22,15 @@ class LoginActivity : AppCompatActivity() {
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding.root)
 
+
         val dataImported = intent.extras
         email = dataImported?.getString("email").toString()
         password = dataImported?.getString("password").toString()
         if(email != "null") loginBinding.emailInputEditText.setText(email)
 
+        bindOnChangeListeners()
         loginBinding.loginButton.setOnClickListener {
-
-            val emailAux : String = loginBinding.emailInputEditText.text.toString()
-            val passwordAux : String = loginBinding.passwordInputEditText.text.toString()
-
-            if(checkUser(emailAux) && checkPassword(passwordAux)){
-                loginBinding.emailInputEditText.error = null
-                loginBinding.passwordInputEditText.error = null
-                goToMainActivity(email,password)
-            }
-            else{
-                if (emailAux.isBlank()) Toast.makeText(this,R.string.email_blank,2.toInt()).show()
-                else{
-                    if(!checkUser(emailAux)) loginBinding.emailTextInputLayout.error = "Usuario No Existe."
-                    else loginBinding.passwordTextInputLayout.error = "Contraseña Incorrecta."
-                }
-
-            }
-
+            validateOnClick()
         }
 
         loginBinding.registerTextView.setOnClickListener {
@@ -75,9 +62,67 @@ class LoginActivity : AppCompatActivity() {
 
             email = data!!.extras?.getString("email").toString()
             password = data!!.extras?.getString("password").toString()
+
+            Toast.makeText(this,"Result 1",2.toInt()).show()
+
         }
-        if(requestCode == 1235 && resultCode == Activity.RESULT_OK){
-            loginBinding.emailInputEditText.setText(email)
+    }
+
+    private fun bindOnChangeListeners(){
+        with(loginBinding) {
+            emailInputEditText.doAfterTextChanged {
+                validateEmail()
+                validateFields()
+            }
+            passwordInputEditText.doAfterTextChanged {
+                validatePassword()
+                validateFields()
+            }
+        }
+    }
+
+    private fun validateOnClick(){
+        val emailAux : String = loginBinding.emailInputEditText.text.toString()
+        val passwordAux : String = loginBinding.passwordInputEditText.text.toString()
+
+        if(checkPassword(passwordAux)){
+            loginBinding.emailTextInputLayout.error = null
+            loginBinding.passwordTextInputLayout.error = null
+            goToMainActivity(email,password)
+        }
+        else{
+            Toast.makeText(this,R.string.wrong_password,2.toInt()).show()
+
+        }
+    }
+
+    private fun validateEmail() {
+        val emailAux = loginBinding.emailInputEditText.text.toString()
+        with(loginBinding){
+            emailTextInputLayout.error = if (equal(emailAux,email )) null else EMAIL_DONT_MATCH
+        }
+    }
+
+    private fun validatePassword() {
+        with(loginBinding){
+            val minPasswordSize : Boolean =  minTextSizeValidator(passwordInputEditText.text.toString(), MIN_SIZE_PASSWORD)
+            passwordTextInputLayout.error = if (minPasswordSize) null  else PASSWORD_UNLESS
+        }
+    }
+
+    private fun validateFields() {
+        with(loginBinding){
+            val fields = listOf<Boolean>(
+                    equal(emailInputEditText.text.toString(),email),
+                    minTextSizeValidator(passwordInputEditText.text.toString(), MIN_SIZE_PASSWORD)
+            )
+            for (valid in fields) {
+                if(!valid) {
+                    loginButton.isEnabled = false
+                    return
+                }
+            }
+            loginButton.isEnabled = true
         }
     }
 
